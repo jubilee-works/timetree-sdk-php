@@ -1,0 +1,14 @@
+{
+    "name": "timetree/timetree-sdk-php",
+    "type": "library",
+    "require": {
+        "guzzlehttp/guzzle": "^7.2",
+        "firebase/php-jwt": "^5.2",
+        "jawira/case-converter": "^3.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "TimeTreeWebApi\\": "src/TimeTreeWebApi"
+        }
+    }
+}
