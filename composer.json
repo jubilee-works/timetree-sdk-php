@@ -10,5 +10,24 @@
         "psr-4": {
             "TimeTreeWebApi\\": "src/TimeTreeWebApi"
         }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.4",
+        "ulrichsg/getopt-php": "^3.4",
+        "mockery/mockery": "^1.4",
+        "overtrue/phplint": "^2.2"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\TimeTreeWebApi\\": "tests/TimeTreeWebApi"
+        }
+    },
+    "scripts": {
+        "test": [
+            "vendor/bin/phpunit tests"
+        ],
+        "lint": [
+            "vendor/bin/phplint"
+        ]
     }
 }

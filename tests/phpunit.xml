@@ -1,0 +1,8 @@
+<!--suppress XmlUnboundNsPrefix -->
+<phpunit bootstrap="./Bootstrap.php" convertNoticesToExceptions="false">
+  <testsuites>
+    <testsuite name="TimeTreeWebApi Unit Test Suite">
+      <directory>./TimeTreeWebApi/Unit</directory>
+    </testsuite>
+  </testsuites>
+</phpunit>
