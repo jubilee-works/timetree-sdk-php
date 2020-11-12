@@ -33,7 +33,10 @@ class CalendarAppAuthenticator
 
     $response = $this->request->post("/api/installations/${installationId}/access_tokens", $jwt);
 
-    return json_decode($response->getBody()->getContents())->access_token;
+    if ($response->getStatusCode() === 200) {
+      return json_decode($response->getBody()->getContents())->access_token;
+    }
+    return "";
   }
 
   private function generateToken()
