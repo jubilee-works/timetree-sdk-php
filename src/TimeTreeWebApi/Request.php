@@ -3,10 +3,7 @@
 namespace TimeTreeWebApi;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\BadResponseException;
-use GuzzleHttp\Psr7;
 use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Psr7\Response;
 
 class Request
 {

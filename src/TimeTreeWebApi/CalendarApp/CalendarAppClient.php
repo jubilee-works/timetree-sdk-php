@@ -3,6 +3,13 @@
 namespace TimeTreeWebApi\CalendarApp;
 
 use TimeTreeWebApi\Request;
+use TimeTreeWebApi\CalendarApp\Parameter\CreateActivityParams;
+use TimeTreeWebApi\CalendarApp\Parameter\CreateEventParams;
+use TimeTreeWebApi\CalendarApp\Parameter\DeleteEventParams;
+use TimeTreeWebApi\CalendarApp\Parameter\DeleteInstallationParams;
+use TimeTreeWebApi\CalendarApp\Parameter\GetEventParams;
+use TimeTreeWebApi\CalendarApp\Parameter\GetUpcomingEventsParams;
+use TimeTreeWebApi\CalendarApp\Parameter\UpdateEventParams;
 
 class CalendarAppClient
 {
@@ -19,62 +26,63 @@ class CalendarAppClient
 
   public function deleteInstallation(DeleteInstallationParams $deleteInstallationParams)
   {
-    $response = $this->request->get("/api/installations/{$deleteInstallationParams->getInstallationId()}", $this->accessToken);
+    $response = $this->request->get("/installations/{$deleteInstallationParams->getInstallationId()}", $this->accessToken);
     return json_decode($response->getBody()->getContents());
   }
 
   public function getCalendar()
   {
-    $response = $this->request->get("/api/calendar", $this->accessToken);
+    $response = $this->request->get("/calendar", $this->accessToken);
     return json_decode($response->getBody()->getContents());
   }
 
   public function getLabels()
   {
-    $response = $this->request->get("/api/calendar/labels", $this->accessToken);
+    $response = $this->request->get("/calendar/labels", $this->accessToken);
     return json_decode($response->getBody()->getContents());
   }
 
   public function getMembers()
   {
-    $response = $this->request->get("/api/calendar/members", $this->accessToken);
+    $response = $this->request->get("/calendar/members", $this->accessToken);
     return json_decode($response->getBody()->getContents());
   }
 
   public function getUpcomingEvents(GetUpcomingEventsParams $getUpcomingEventsParams)
   {
     $query = http_build_query($getUpcomingEventsParams->getParams());
-    $response = $this->request->get("/api/calendar/upcoming_events?{$query}", $this->accessToken);
+    $response = $this->request->get("/calendar/upcoming_events?{$query}", $this->accessToken);
     return json_decode($response->getBody()->getContents());
   }
 
   public function getEvent(GetEventParams $getEventParams)
   {
-    $response = $this->request->get("/api/calendar/events/{$getEventParams->getEventId()}", $this->accessToken);
+    $response = $this->request->get("/calendar/events/{$getEventParams->getEventId()}", $this->accessToken);
     return json_decode($response->getBody()->getContents());
   }
 
   public function createEvent(CreateEventParams $createEventParams)
   {
-    $response = $this->request->post("/api/calendar/events", $this->accessToken, $createEventParams->getParams());
+    var_dump($createEventParams->getParams());
+    $response = $this->request->post("/calendar/events", $this->accessToken, $createEventParams->getParams());
     return json_decode($response->getBody()->getContents());
   }
 
   public function updateEvent(UpdateEventParams $updateEventParams)
   {
-    $response = $this->request->put("/api/calendar/events/{$updateEventParams->getEventId()}", $this->accessToken, $updateEventParams->getParams());
+    $response = $this->request->put("/calendar/events/{$updateEventParams->getEventId()}", $this->accessToken, $updateEventParams->getParams());
     return json_decode($response->getBody()->getContents());
   }
 
   public function deleteEvent(DeleteEventParams $deleteEventParams)
   {
-    $response = $this->request->delete("/api/calendar/events/{$deleteEventParams->getEventId()}", $this->accessToken);
+    $response = $this->request->delete("/calendar/events/{$deleteEventParams->getEventId()}", $this->accessToken);
     return json_decode($response->getBody()->getContents());
   }
 
   public function createActivity(CreateActivityParams $createActivityParams)
   {
-    $response = $this->request->post("/api/calendar/events/{$createActivityParams->getEventId()}/activities", $this->accessToken, $createActivityParams->getParams());
+    $response = $this->request->post("/calendar/events/{$createActivityParams->getEventId()}/activities", $this->accessToken, $createActivityParams->getParams());
     return json_decode($response->getBody()->getContents());
   }
 }

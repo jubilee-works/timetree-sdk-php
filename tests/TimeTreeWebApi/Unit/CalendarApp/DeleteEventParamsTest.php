@@ -3,7 +3,7 @@
 namespace Tests\TimeTreeWebApi\Unit\CalendarApp;
 
 use PHPUnit\Framework\TestCase;
-use TimeTreeWebApi\CalendarApp\DeleteEventParams;
+use TimeTreeWebApi\CalendarApp\Parameter\DeleteEventParams;
 
 class DeleteEventParamsTest extends TestCase
 {

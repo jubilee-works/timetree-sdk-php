@@ -1,8 +1,8 @@
 <?php
 
-namespace TimeTreeWebApi\CalendarApp;
+namespace TimeTreeWebApi\CalendarApp\Parameter;
 
-class GetEventParams
+class DeleteEventParams
 {
   private $eventId;
 
