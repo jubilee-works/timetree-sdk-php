@@ -1,6 +1,6 @@
 <?php
 
-namespace TimeTreeWebApi\CalendarApp;
+namespace TimeTreeWebApi\OauthApp\Parameter;
 
 use DateTimeZone;
 
@@ -9,12 +9,20 @@ class GetUpcomingEventsParams
   const MAX = 7;
   const MIN = 1;
 
+  private $calendarId;
   private $timezone;
   private $days;
   private $include;
 
-  public function __construct(DateTimeZone $timezone, int $days, bool $creator = false, bool $label = false, bool $attendees = false)
-  {
+  public function __construct(
+    string $calendarId,
+    DateTimeZone $timezone,
+    int $days,
+    bool $creator = false,
+    bool $label = false,
+    bool $attendees = false
+  ) {
+    $this->calendarId = $calendarId;
     $this->timezone = $timezone->getName();
     $this->days = (self::MIN <= $days) && ($days <= self::MAX) ? $days : 1;
     $this->include = [];
@@ -29,10 +37,18 @@ class GetUpcomingEventsParams
     }
   }
 
+  public function getCalendarId(): string
+  {
+    return $this->calendarId;
+  }
+
   public function getParams(): array
   {
     $data = [];
     foreach ($this as $key => $value) {
+      if ($key === "calendarId") {
+        continue;
+      }
       $data[$key] = $value;
     }
     return $data;

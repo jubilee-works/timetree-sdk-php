@@ -1,6 +1,6 @@
 <?php
 
-namespace TimeTreeWebApi\CalendarApp;
+namespace TimeTreeWebApi\CalendarApp\Parameter;
 
 class CreateActivityParams
 {

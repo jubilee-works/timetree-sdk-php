@@ -2,10 +2,8 @@
 
 namespace Tests\TimeTreeWebApi\Unit\CalendarApp;
 
-use DateTimeZone;
 use PHPUnit\Framework\TestCase;
-use TimeTreeWebApi\CalendarApp\DeleteInstallationParams;
-use TimeTreeWebApi\CalendarApp\GetUpcomingEventsParams;
+use TimeTreeWebApi\CalendarApp\Parameter\DeleteInstallationParams;
 
 class DeleteInstallationParamsTest extends TestCase
 {

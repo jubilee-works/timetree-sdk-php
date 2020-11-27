@@ -3,7 +3,7 @@
 namespace Tests\TimeTreeWebApi\Unit\CalendarApp;
 
 use PHPUnit\Framework\TestCase;
-use TimeTreeWebApi\CalendarApp\GetEventParams;
+use TimeTreeWebApi\CalendarApp\Parameter\GetEventParams;
 
 class GetEventParamsTest extends TestCase
 {

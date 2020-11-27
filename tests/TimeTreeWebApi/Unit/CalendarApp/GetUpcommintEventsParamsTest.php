@@ -4,7 +4,7 @@ namespace Tests\TimeTreeWebApi\Unit\CalendarApp;
 
 use DateTimeZone;
 use PHPUnit\Framework\TestCase;
-use TimeTreeWebApi\CalendarApp\GetUpcomingEventsParams;
+use TimeTreeWebApi\CalendarApp\Parameter\GetUpcomingEventsParams;
 
 class GetUpcommintEventsParamsTest extends TestCase
 {

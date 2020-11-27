@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\TimeTreeWebApi\Unit\CalendarApp;
+namespace Tests\TimeTreeWebApi\Unit\OauthApp;
 
 use PHPUnit\Framework\TestCase;
-use TimeTreeWebApi\CalendarApp\Parameter\CreateActivityParams;
+use TimeTreeWebApi\OauthApp\Parameter\CreateActivityParams;
 
 class CreateActivityParamsTest extends TestCase
 {
@@ -12,6 +12,7 @@ class CreateActivityParamsTest extends TestCase
   protected function setUp(): void
   {
     $this->instance = new CreateActivityParams(
+      "abc-calendar-id",
       "abc-event-id",
       "test content",
     );
@@ -28,6 +29,13 @@ class CreateActivityParamsTest extends TestCase
         ]
       ]
     ]);
+  }
+
+  public function testGetCalendarId()
+  {
+    $params = $this->instance->getCalendarId();
+
+    $this->assertEquals($params, "abc-calendar-id");
   }
 
   public function testGetEventId()

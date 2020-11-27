@@ -1,21 +1,24 @@
 <?php
 
-namespace Tests\TimeTreeWebApi\Unit\CalendarApp;
+namespace Tests\TimeTreeWebApi\Unit\OauthApp;
 
 use DateTime;
 use DateTimeZone;
 use PHPUnit\Framework\TestCase;
-use TimeTreeWebApi\CalendarApp\Parameter\AttendeesParams;
-use TimeTreeWebApi\CalendarApp\Parameter\CreateEventParams;
+use TimeTreeWebApi\OauthApp\Parameter\AttendeesParams;
+use TimeTreeWebApi\OauthApp\Parameter\CreateEventParams;
+use TimeTreeWebApi\OauthApp\Parameter\LabelsParams;
 
 class CreateEventParamsTest extends TestCase
 {
   public function testGetParamsWhenNotAllday(): void
   {
     $instance = new CreateEventParams(
+      "abc-calendar-id",
       "test title",
       "schedule",
       false,
+      new LabelsParams(1),
       new DateTime("2020-10-10 09:00:00"),
       new DateTimeZone("Asia/Tokyo"),
       new DateTime("2020-10-10 11:00:00"),
@@ -48,6 +51,12 @@ class CreateEventParamsTest extends TestCase
               ["id" => 2, "type" => "user"],
               ["id" => 3, "type" => "user"],
             ]
+          ],
+          "label" => [
+            "data" => [
+              "id" => 1,
+              "type" => "label"
+            ]
           ]
         ]
       ]
@@ -57,9 +66,11 @@ class CreateEventParamsTest extends TestCase
   public function testGetParamsWhenAllday(): void
   {
     $instance = new CreateEventParams(
+      "abc-calendar-id",
       "test title",
       "schedule",
       true,
+      new LabelsParams(1),
       new DateTime("2020-10-10"),
       null,
       new DateTime("2020-10-10"),
@@ -77,6 +88,14 @@ class CreateEventParamsTest extends TestCase
           "start_at" => "2020-10-10T00:00:00+0000",
           "end_at" => "2020-10-10T00:00:00+0000",
           "description" => "test description",
+        ],
+        "relationships" => [
+          "label" => [
+            "data" => [
+              "id" => 1,
+              "type" => "label"
+            ]
+          ]
         ]
       ]
     ]);
@@ -85,9 +104,11 @@ class CreateEventParamsTest extends TestCase
   public function testGetParamsWhenCategoryIsKeep(): void
   {
     $instance = new CreateEventParams(
+      "abc-calendar-id",
       "test title",
       "keep",
       true,
+      new LabelsParams(1),
       null,
       null,
       null,
@@ -103,6 +124,14 @@ class CreateEventParamsTest extends TestCase
           "category" => "keep",
           "all_day" => true,
           "description" => "test description",
+        ],
+        "relationships" => [
+          "label" => [
+            "data" => [
+              "id" => 1,
+              "type" => "label"
+            ]
+          ]
         ]
       ]
     ]);

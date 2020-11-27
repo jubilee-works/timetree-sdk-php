@@ -2,42 +2,57 @@
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
+use GetOpt\ArgumentException;
+use GetOpt\GetOpt;
+use GetOpt\Option;
 use TimeTreeWebApi\CalendarApp\CalendarAppAuthenticator;
 use TimeTreeWebApi\CalendarApp\CalendarAppClient;
-use TimeTreeWebApi\CalendarApp\CreateEventParams;
+use TimeTreeWebApi\CalendarApp\Parameter\CreateEventParams;
 
-$longArgs = [
-  "pemFilePath:",
-  "applicationId:",
-  "host:",
-  "installationId:",
-];
-
-$options = getopt("", $longArgs);
-if (count($options) !== 4) {
-  echo ("Argment error.");
-  return;
+$getOpt = new GetOpt([
+  Option::create('p', 'pemFilePath', GetOpt::REQUIRED_ARGUMENT)
+    ->setDescription('Pem file generated when creating the application.'),
+  Option::create('a', 'applicationId', GetOpt::REQUIRED_ARGUMENT)
+    ->setDescription('Your Application ID'),
+  Option::create('i', 'installationId', GetOpt::REQUIRED_ARGUMENT)
+    ->setDescription('Users installation ID'),
+  Option::create('H', 'host', GetOpt::REQUIRED_ARGUMENT)
+    ->setDescription('Request destination host'),
+  Option::create('h', 'help', GetOpt::NO_ARGUMENT)
+    ->setDescription('Show this help and quit')
+]);
+try {
+  $getOpt->process();
+  if ($getOpt->getOption('help')) {
+    echo $getOpt->getHelpText();
+    exit;
+  }
+  if (count($getOpt->getOptions()) < 8) {
+    throw new ArgumentException("Argment error.");
+  }
+} catch (ArgumentException $exception) {
+  file_put_contents('php://stderr', $exception->getMessage() . PHP_EOL);
+  echo PHP_EOL . $getOpt->getHelpText();
+  exit;
 }
 
-$privateKey = file_get_contents($options["pemFilePath"]);
+$privateKey = file_get_contents($getOpt["pemFilePath"]);
 
-$instance = new CalendarAppAuthenticator($options["applicationId"], $privateKey, $options["host"]);
+$instance = new CalendarAppAuthenticator($getOpt["applicationId"], $privateKey, $getOpt["host"]);
 
-$token = $instance->getAccessToken($options["installationId"]);
+$token = $instance->getAccessToken($getOpt["installationId"]);
 
-$client = new CalendarAppClient($token, $options["host"]);
+$client = new CalendarAppClient($token, $getOpt["host"]);
 
 $calendar = $client->getCalendar();
 
 $params = new CreateEventParams(
-  "タイトル",
-  "schedule",
-  "ディスクリプション",
-  false,
-  new DateTime("2020-10-10 09:00:00"),
-  new DateTimeZone("Asia/Tokyo"),
-  new DateTime("2020-10-10 10:00:00"),
-  new DateTimeZone("Asia/Tokyo")
+  "title",
+  "keep",
+  true,
+  new DateTime("2021-01-01"),
+  null,
+  new DateTime("2021-01-01"),
 );
 
 $response = $client->createEvent($params);
