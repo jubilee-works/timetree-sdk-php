@@ -1,0 +1,96 @@
+version: 2.1
+
+orbs:
+  slack: circleci/slack@4.1.2
+
+executors:
+  default:
+    working_directory: ~/timetree-sdk-php
+    docker:
+      - image: circleci/php:7.4
+  release:
+    working_directory: ~/timetree-sdk-php
+    docker:
+      - image: circleci/php:7.4-node
+
+commands:
+  build_composer:
+    steps:
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "composer.lock" }}
+            - v1-dependencies-
+      - run:
+            name: Composer install
+            command: composer install -n --prefer-dist
+      - save_cache:
+          paths:
+            - ~/.cache/composer
+          key: v1-dependencies-{{ checksum "composer.lock" }}
+
+jobs:
+  test:
+    executor:
+      name: default
+    steps:
+      - checkout:
+          path: ~/timetree-sdk-php
+      - build_composer
+      - run:
+          name: Lint
+          command: composer lint
+      - run:
+          name: Test
+          command: composer test
+  release:
+    executor:
+      name: release
+    steps:
+      - checkout:
+          path: ~/timetree-sdk-php
+      - build_composer
+      - run:
+          name: release
+          command: |
+            npm init -y
+            npm install @semantic-release/npm -D
+            npm install @semantic-release/git -D
+            npm install @semantic-release/changelog -D
+            npx semantic-release
+
+workflows:
+  version: 2
+  test_pull_request:
+    jobs:
+      - test:
+          filters:
+            branches:
+              ignore: master
+  test_and_release:
+    jobs:
+      - test:
+          filters:
+            branches:
+              only:
+                - master
+                - alpha
+                - beta
+      - slack/on-hold:
+          channel: "#timetree-sdk-php"
+          context: slack-orb
+          requires:
+            - test
+      - release-approval:
+          type: approval
+          requires:
+            - slack/on-hold
+      - release:
+          context: release-timetree-sdk
+          requires:
+            - release-approval
+          filters:
+            branches:
+              only:
+                - master
+                - alpha
+                - beta

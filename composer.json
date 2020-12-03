@@ -1,6 +1,15 @@
 {
     "name": "timetree/timetree-sdk-php",
+    "description": "Official SDK for using TimeTree WebAPI",
     "type": "library",
+    "homepage": "https://github.com/jubilee-works/timetree-sdk-php",
+    "license": "Apache2",
+    "authors": [
+        {
+            "name": "TimeTree, Inc. <dev-platform@timetreeapp.com>",
+            "homepage": "https://developers.timetreeapp.com/"
+        }
+    ],
     "require": {
         "guzzlehttp/guzzle": "^7.2",
         "firebase/php-jwt": "^5.2",
