@@ -44,8 +44,6 @@ $token = $instance->getAccessToken($getOpt["installationId"]);
 
 $client = new CalendarAppClient($token, $getOpt["host"]);
 
-$calendar = $client->getCalendar();
-
 $params = new CreateEventParams(
   "title",
   "keep",
