@@ -21,6 +21,6 @@ class GetUpcommintEventsParamsTest extends TestCase
     );
     $params = $instance->getParams();
 
-    $this->assertEquals($params, ["timezone" => "Asia/Tokyo", "days" => 1, "include" => ["creator", "label", "attendees"]]);
+    $this->assertEquals($params, ["timezone" => "Asia/Tokyo", "days" => 1, "include" => 'creator,label,attendees']);
   }
 }
