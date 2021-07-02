@@ -46,10 +46,15 @@ class GetUpcomingEventsParams
   {
     $data = [];
     foreach ($this as $key => $value) {
-      if ($key === "calendarId") {
-        continue;
+      switch ($key) {
+        case 'calendarId':
+          break;
+        case 'include':
+          $data[$key] = implode(',', $value);
+          break;
+        default:
+          $data[$key] = $value;
       }
-      $data[$key] = $value;
     }
     return $data;
   }
